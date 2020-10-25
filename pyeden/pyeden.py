@@ -61,7 +61,7 @@ def read_data(path, im_size=(128,128)):
     
     return X, y
 
-#['Black nightsade-22-MAY-2019-v1.zip', 'Broccoli-02-SEP-2019-v1']
+#['Black nightsade-22-MAY-2019-v1', 'Broccoli-02-SEP-2019-v1']
 def load_datasets(file_names=[],
                  im_size=(128, 128)):
     for file_name in file_names:
