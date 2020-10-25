@@ -12,7 +12,7 @@ setup(
     description='Library for downloading EDEN datasets',
     author='SFT Group',
     license='MIT',
-    long_description=open('README.md').read(),
+    long_description=open('README.md').read() + "\n\n" + open("CHANGELOG.txt").read(),
     install_requires=[
           'requests',
           'numpy',
