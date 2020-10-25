@@ -2,3 +2,5 @@ build/
 dist/
 pyeden.egg-info/
 DATA/
+pyeden/__pycache__
+*.pyc
