@@ -6,6 +6,8 @@ from glob import glob
 from tqdm import tqdm
 import numpy as np
 
+FOLDER_NAME = 'DATA/'
+
 def to_categorical(y, num_classes=None, dtype='float32'):
   y = np.array(y, dtype='int')
   input_shape = y.shape
@@ -27,45 +29,58 @@ def is_picture(file):
     else:
         return False
 
+def is_included(file_path, included_datasets):
+    for included_dataset in included_datasets:
+        if included_dataset in file_path:
+            return True
+    return False
+
 def download_dataset(file_name):
     URL = 'http://localhost:3000/datasets/'
-    FOLDER_NAME = 'DATA'
     print("Downloading", file_name)
+    print("This could take some seconds...")
     r = requests.get(URL + file_name, allow_redirects=True)
     try:
         os.mkdir(FOLDER_NAME)
     except FileExistsError:
         pass
     
-    open(FOLDER_NAME + "/" + file_name, 'wb').write(r.content)
+    open(FOLDER_NAME + file_name, 'wb').write(r.content)
 
     # Create a ZipFile Object and load sample.zip in it
-    with ZipFile(FOLDER_NAME + "/" + file_name, 'r') as zipObj:
+    with ZipFile(FOLDER_NAME + file_name, 'r') as zipObj:
         print("Unzipping", file_name)
         # Extract all the contents of zip file in current directory
-        zipObj.extractall(FOLDER_NAME + "/" + file_name.split(".")[0])
-        os.remove(FOLDER_NAME + "/" + file_name)
+        zipObj.extractall(FOLDER_NAME + file_name.split(".")[0])
+        os.remove(FOLDER_NAME + file_name)
 
-def read_data(path, im_size=(128,128)):
-    tag2idx = {tag:i for i, tag in enumerate(os.listdir(path))}
+def read_data(path, im_size=(128,128), included_datasets= []):
+    tag2idx = {dataset:i for i, dataset in enumerate(included_datasets)}
     im_path = path + "*/*"
     print("Reading data...")
-    X = np.array([cv2.resize(cv2.imread(im_file), im_size) 
-                    for im_file in tqdm(glob(im_path))
-                    if is_picture(im_file)])
-    y = [tag2idx[im_file.split("/")[1]] 
-                                 for im_file in tqdm(glob(im_path))
-                                 if is_picture(im_file)]
-    
+    X = np.array([cv2.resize(cv2.imread(file_path), im_size) 
+                    for file_path in tqdm(glob(im_path))
+                    if is_picture(file_path) and 
+                       is_included(file_path, included_datasets)])
+    y = [tag2idx[file_path.split("/")[1]] 
+                                 for file_path in tqdm(glob(im_path))
+                                 if is_picture(file_path) and
+                                    is_included(file_path, included_datasets)]
+
     y = np.array(to_categorical(y, num_classes=len(np.unique(y))))
     
     return X, y
 
-#['Black nightsade-22-MAY-2019-v1', 'Broccoli-02-SEP-2019-v1']
+#['Black nightsade-22/MAY/2019-v1', 'Broccoli-02/SEP/2019-v1', 'Grape vine-02/JUN/2020-v1']
 def load_datasets(file_names=[],
                  im_size=(128, 128)):
-    for file_name in file_names:
-        download_dataset(file_name + ".zip")
+    current_datasets = [file_name for file_name in os.listdir(FOLDER_NAME)]
+    web_file_names = [file_name.replace("/", "-") for file_name in file_names]
+    for file_name in web_file_names:
+        if file_name not in current_datasets:
+            download_dataset(file_name + ".zip")
+        else:
+            print(file_name, "is locally available")
     
-    X, y = read_data(path="DATA/")
+    X, y = read_data(path=FOLDER_NAME, included_datasets=web_file_names)
     return X, y
