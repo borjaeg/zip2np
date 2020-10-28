@@ -1,6 +1,7 @@
 import requests
 from zipfile import ZipFile
 import os
+from os import path
 import cv2
 from glob import glob
 from tqdm import tqdm
@@ -74,7 +75,11 @@ def read_data(path, im_size=(128,128), included_datasets= []):
 #['Black nightsade-22/MAY/2019-v1', 'Broccoli-02/SEP/2019-v1', 'Grape vine-02/JUN/2020-v1']
 def load_datasets(file_names=[],
                  im_size=(128, 128)):
-    current_datasets = [file_name for file_name in os.listdir(FOLDER_NAME)]
+    
+    if path.exists(FOLDER_NAME):
+        current_datasets = [file_name for file_name in os.listdir(FOLDER_NAME)]
+    else:
+        current_datasets = []
     web_file_names = [file_name.replace("/", "-") for file_name in file_names]
     for file_name in web_file_names:
         if file_name not in current_datasets:
