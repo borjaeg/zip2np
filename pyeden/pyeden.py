@@ -58,13 +58,13 @@ def download_dataset(file_name):
 def read_data(path, im_size=(128,128), included_datasets= []):
     tag2idx = {dataset:i for i, dataset in enumerate(included_datasets)}
     im_path = path + "*/*"
-    print("Reading data...")
+    print("Loading data...")
     X = np.array([cv2.resize(cv2.imread(file_path), im_size) 
                     for file_path in tqdm(glob(im_path))
                     if is_picture(file_path) and 
                        is_included(file_path, included_datasets)])
     y = [tag2idx[file_path.split("/")[1]] 
-                                 for file_path in tqdm(glob(im_path))
+                                 for file_path in glob(im_path)
                                  if is_picture(file_path) and
                                     is_included(file_path, included_datasets)]
 
@@ -72,15 +72,17 @@ def read_data(path, im_size=(128,128), included_datasets= []):
     
     return X, y
 
-#['Black nightsade-22/MAY/2019-v1', 'Broccoli-02/SEP/2019-v1', 'Grape vine-02/JUN/2020-v1']
+# List of Formal Names['Black nightsade-220519-Weed-zz-V1', 
+#                      'Broccoli-020919-Healthy-zz-V1', 
+#                      'Broccoli-080919-Healthy-zz-V1']
 def load_datasets(file_names=[],
-                 im_size=(128, 128)):
+                  im_size=(128, 128)):
     
     if path.exists(FOLDER_NAME):
         current_datasets = [file_name for file_name in os.listdir(FOLDER_NAME)]
     else:
         current_datasets = []
-    web_file_names = [file_name.replace("/", "-") for file_name in file_names]
+    web_file_names = [file_name + "_min" for file_name in file_names]
     for file_name in web_file_names:
         if file_name not in current_datasets:
             download_dataset(file_name + ".zip")
