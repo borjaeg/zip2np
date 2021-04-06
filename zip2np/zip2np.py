@@ -1,6 +1,6 @@
-from zipfile import ZipFile
 import os
 from os import path
+from zipfile import ZipFile
 import cv2
 from glob import glob
 from tqdm import tqdm

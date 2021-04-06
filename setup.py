@@ -10,8 +10,8 @@ setup(
     name='zip2np', 
     packages=find_packages(include=['zip2np'], 
                            exclude=['tests']),
-    version='0.1.0',
-    url='https://github.com/',
+    version='0.1.1',
+    url='https://github.com/borjaeg/zip2np',
     classifiers=[
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3',
