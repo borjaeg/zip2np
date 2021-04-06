@@ -4,3 +4,5 @@ zip2np.egg-info/
 DATA/
 zip2np/__pycache__
 *.pyc
+*.zip
+.eggs/
