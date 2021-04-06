@@ -27,7 +27,6 @@ setup(
     include_package_data=True,
     long_description_content_type="text/markdown",
     install_requires=[
-          'requests',
           'numpy',
           'glob3',
           'tqdm',

@@ -1,6 +1,6 @@
 build/
 dist/
-pyeden.egg-info/
+zip2np.egg-info/
 DATA/
-pyeden/__pycache__
+zip2np/__pycache__
 *.pyc
