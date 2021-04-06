@@ -72,22 +72,8 @@ def read_data(path, im_size=(128,128), included_datasets= []):
     
     return X, y
 
-# List of Formal Names['Black nightsade-220519-Weed-zz-V1', 
-#                      'Broccoli-020919-Healthy-zz-V1', 
-#                      'Broccoli-080919-Healthy-zz-V1']
 def load_datasets(file_names=[],
                   im_size=(128, 128)):
-    
-    if path.exists(FOLDER_NAME):
-        current_datasets = [file_name for file_name in os.listdir(FOLDER_NAME)]
-    else:
-        current_datasets = []
-    web_file_names = [file_name + "_min" for file_name in file_names]
-    for file_name in web_file_names:
-        if file_name not in current_datasets:
-            download_dataset(file_name + ".zip")
-        else:
-            print(file_name, "is locally available")
-    
+        
     X, y = read_data(path=FOLDER_NAME, included_datasets=web_file_names)
     return X, y
