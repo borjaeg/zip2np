@@ -6,3 +6,4 @@ zip2np/__pycache__
 *.pyc
 *.zip
 .eggs/
+.pytest_cache

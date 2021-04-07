@@ -7,7 +7,7 @@ HERE = pathlib.Path(__file__).parent
 OFFICIAL_PACKAGE_NAME= "zip2np"
 VERSION="0.1.2"
 LICENSE="MIT"
-MODULE_NAME = "zip2np"
+LIBRARY_NAME = "zip2np"
 AUTHOR="Borjakas"
 URL="https://github.com/borjaeg/zip2np"
 DEPENDENCIES=[
@@ -22,7 +22,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name=OFFICIAL_PACKAGE_NAME, 
-    packages=find_packages(include=[MODULE_NAME], 
+    packages=find_packages(include=[LIBRARY_NAME], 
                            exclude=['tests']),
     version=VERSION,
     url=URL,

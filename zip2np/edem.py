@@ -30,13 +30,15 @@ def __unzip_folders(path):
     :param zip_name: a folder
     :return: None
     """
+    print("Unzipping folders...")
     # Unzip folders
     all_zip_files = os.listdir(path)
     for zip_file in all_zip_files:
         if zip_file != ".DS_Store":
             shutil.unpack_archive(zip_file)
             break
-
+    
+    print("Removing ZIP folders...")
     # Remove Zipped folders
     all_files = os.listdir(".")
     for file_name in all_files:
@@ -56,12 +58,12 @@ def load_datasets(path="./", im_size=(128, 128)):
     =========
     X, y = load_datasets(".", (256, 256))
     """
-
     if im_size[0] <= 0 or im_size[1] <= 0:
         return -1
 
     __unzip_folders(path)
 
+    print("Loading Datasets...")
     # Create index for transform labels into class numbers
     tag2idx = {tag.split("/")[1]: i for i, tag in enumerate(glob(path + "*"))}
     im_path = path + "*/*"
