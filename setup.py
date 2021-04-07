@@ -1,17 +1,31 @@
 import pathlib
 from setuptools import find_packages, setup
 
-# The text of the README file
 # The directory containing this file
 HERE = pathlib.Path(__file__).parent
+
+OFFICIAL_PACKAGE_NAME= "zip2np"
+VERSION="0.1.2"
+LICENSE="MIT"
+MODULE_NAME = "zip2np"
+AUTHOR="Borjakas"
+URL="https://github.com/borjaeg/zip2np"
+DEPENDENCIES=[
+    "numpy",
+    "glob3",
+    "tqdm",
+    "opencv-python"
+]
+
+# The text of the README file
 README = (HERE / "README.md").read_text()
 
 setup(
-    name='zip2np', 
-    packages=find_packages(include=['zip2np'], 
+    name=OFFICIAL_PACKAGE_NAME, 
+    packages=find_packages(include=[MODULE_NAME], 
                            exclude=['tests']),
-    version='0.1.1',
-    url='https://github.com/borjaeg/zip2np',
+    version=VERSION,
+    url=URL,
     classifiers=[
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3',
@@ -20,18 +34,13 @@ setup(
         'Intended Audience :: Developers'
     ],
     description='Library for decompressing Zip files and put into Numpy Arrays',
-    author='Borjakas',
+    author=AUTHOR,
     author_email="hello@borjakas.com",
-    license='MIT',
+    license=LICENSE,
     long_description=README,
     include_package_data=True,
     long_description_content_type="text/markdown",
-    install_requires=[
-          'numpy',
-          'glob3',
-          'tqdm',
-          'opencv-python'
-      ],
+    install_requires=DEPENDENCIES,
     setup_requires=["pytest-runner"],
     tests_require=["pytest==4.4.1"]
 )
